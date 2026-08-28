@@ -25,6 +25,17 @@ a:hover{opacity:.6}
 [data-light]{color:#1A1815}
 [data-lb]{cursor:zoom-in;transition:opacity .3s ease}
 [data-lb]:hover{opacity:.8}
+/* Bloco "O que eu faço" + "Ferramentas" */
+.oq{margin-top:clamp(44px,6vw,80px);border-top:1px solid rgba(242,238,230,.14);padding-top:clamp(28px,3.4vw,40px);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,5vw,72px);align-items:start}
+.oq-eb{font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(242,238,230,.56);margin-bottom:4px}
+.svc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(24px,3vw,44px)}
+.svc li{border-bottom:1px solid rgba(242,238,230,.14);padding:15px 0 14px;font-size:clamp(16px,1.45vw,19px);font-weight:600;letter-spacing:-0.02em;line-height:1.25}
+.tools{list-style:none;margin:0;padding:14px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.tools li{display:inline-flex;align-items:center;gap:10px;min-height:42px;padding:9px 17px 9px 14px;border:1px solid rgba(242,238,230,.22);border-radius:999px;font-size:14.5px;font-weight:500;letter-spacing:-0.01em;line-height:1;transition:border-color .2s}
+.tools li:hover{border-color:#C4573A}
+.tools img{width:18px;height:18px;flex:none;object-fit:contain}
+@media (max-width:880px){.oq{grid-template-columns:1fr;gap:34px}}
+@media (max-width:520px){.svc{grid-template-columns:1fr}}
 </style>
 <script>
 (function(){
@@ -87,20 +98,28 @@ a:hover{opacity:.6}
     </figure>
   </div>
 
-  <div style="margin-top:clamp(44px,6vw,80px);border-top:1px solid rgba(242,238,230,.14);padding-top:26px">
-    <div style="font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(242,238,230,.56);margin-bottom:14px">O que eu faço</div>
-    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px clamp(7px,0.8vw,11px);font-size:clamp(12.5px,1.15vw,15px);font-weight:500;white-space:nowrap">
-      <span>Design para social</span>
-      <span style="color:rgba(242,238,230,.28)">·</span>
-      <span>Criativos para ads</span>
-      <span style="color:rgba(242,238,230,.28)">·</span>
-      <span>E-mail marketing</span>
-      <span style="color:rgba(242,238,230,.28)">·</span>
-      <span>Landing pages</span>
-      <span style="color:rgba(242,238,230,.28)">·</span>
-      <span>Material institucional</span>
-      <span style="color:rgba(242,238,230,.28)">·</span>
-      <span>Relatórios visuais e dados</span>
+  <div class="oq">
+    <div>
+      <div class="oq-eb">O que eu faço</div>
+      <ul class="svc">
+        <li>Design para social</li>
+        <li>Criativos para ads</li>
+        <li>E-mail marketing</li>
+        <li>Landing pages</li>
+        <li>Material institucional</li>
+        <li>Relatórios visuais e dados</li>
+      </ul>
+    </div>
+    <div>
+      <div class="oq-eb">Ferramentas</div>
+      <!-- Ícones vêm da API pública do Iconify (conjunto theSVG Color). Se um dia quiser arquivos locais, troque o src por assets/icons/nome.svg. -->
+      <ul class="tools">
+        <li><img src="https://api.iconify.design/thesvg-color:figma.svg" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">Figma</li>
+        <li><img src="https://api.iconify.design/thesvg-color:photoshop.svg" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">Photoshop</li>
+        <li><img src="https://api.iconify.design/thesvg-color:illustrator.svg" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">Illustrator</li>
+        <li><img src="https://api.iconify.design/thesvg-color:indesign.svg" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">InDesign</li>
+        <li><img src="https://api.iconify.design/thesvg-color:capcut.svg" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">CapCut</li>
+      </ul>
     </div>
   </div>
 </section>
