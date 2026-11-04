@@ -301,6 +301,137 @@ a:hover{opacity:.6}
       <figcaption style="margin-top:12px;display:var(--capd,flex);gap:8px;align-items:baseline"><span style="font-size:11px;font-weight:600;letter-spacing:0.14em;color:var(--ac,#C4573A)">09</span><span style="font-size:13.5px;line-height:1.5;color:rgba(242,238,230,.56)">Fechamento com a pergunta em bold e a pilha de moedas cortando o card.</span></figcaption>
     </figure>
   </div>
+
+  <!-- Frente 04: posts do @soueuomatt puxados automaticamente pelo Behold (feed JSON).
+       Se o feed falhar ou vier vazio, o bloco inteiro fica escondido. -->
+  <div id="ig-bloco" hidden>
+    <div style="margin-top:clamp(64px,10vw,128px);border-top:1px solid rgba(242,238,230,.2);padding-top:30px">
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(242,238,230,.56);margin-bottom:14px">Frente 04</div>
+      <h3 style="margin:0 0 18px;max-width:24ch;font-size:clamp(22px,2.6vw,30px);font-weight:600;letter-spacing:-0.025em;line-height:1.2">Direto do Instagram</h3>
+      <p style="margin:0 0 20px;max-width:56ch;color:rgba(242,238,230,.56);font-size:16px">As peças mais recentes publicadas no meu perfil. Esta grade se atualiza sozinha a cada post novo. Clique num carrossel para passar card por card.</p>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:12.5px;color:rgba(242,238,230,.56)">
+        <a href="https://instagram.com/soueuomatt" target="_blank" rel="noopener" style="color:rgba(242,238,230,.56)">@soueuomatt ↗</a>
+        <span style="color:rgba(242,238,230,.28)">·</span>
+        <span id="ig-qtd"></span>
+      </div>
+    </div>
+    <div id="ig-grade" style="margin-top:clamp(28px,4vw,44px);display:grid;grid-template-columns:repeat(auto-fit,minmax(var(--minw,320px),1fr));gap:clamp(22px,3vw,36px) clamp(18px,2.4vw,28px)"></div>
+  </div>
+  <style>
+  .igv{position:fixed;inset:0;z-index:210;background:rgba(18,17,15,.95);display:flex;align-items:center;justify-content:center;padding:3vh 4vw}
+  .igv img{max-width:100%;max-height:86vh;width:auto;height:auto;border-radius:24px;user-select:none}
+  .igv-bt{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:999px;border:1px solid rgba(242,238,230,.22);background:rgba(26,24,21,.7);color:#F2EEE6;font:500 20px/1 'Inter',system-ui,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+  .igv-bt:hover,.igv-bt:focus-visible{border-color:#C4573A;outline:none}
+  .igv-bt[disabled]{opacity:.25;cursor:default}
+  .igv-prev{left:max(12px,2vw)}.igv-next{right:max(12px,2vw)}
+  .igv-close{position:absolute;top:max(12px,2vh);right:max(12px,2vw);transform:none}
+  .igv-cont{position:absolute;bottom:max(14px,2.4vh);left:0;right:0;text-align:center;font-size:11px;font-weight:600;letter-spacing:0.16em;color:rgba(242,238,230,.56)}
+  .igv-cont a{color:rgba(242,238,230,.56);margin-left:14px;letter-spacing:0}
+  @media (max-width:640px){.igv-bt{width:40px;height:40px;font-size:17px}}
+  </style>
+  <script>
+  (function(){
+    var FEED = 'https://feeds.behold.so/Eirt5KG8LWmvraSxDmKs';
+    var MUTED = 'rgba(242,238,230,.56)';
+    function el(tag, style, text){
+      var n = document.createElement(tag);
+      if (style) n.setAttribute('style', style);
+      if (text) n.textContent = text;
+      return n;
+    }
+    function tam(m, t){ return (m.sizes && m.sizes[t] && m.sizes[t].mediaUrl) || m.mediaUrl || m.thumbnailUrl; }
+    function legenda(p){
+      var t = (p.prunedCaption || p.caption || '').split('\n').filter(function(l){ return l.trim(); })[0] || '';
+      t = t.replace(/#[\p{L}\p{N}_]+/gu, '').trim();
+      var frase = t.match(/^.+?[.!?](\s|$)/);
+      if (frase && frase[0].length >= 30) t = frase[0].trim();
+      return t.length > 110 ? t.slice(0, 107).trimEnd() + '…' : t;
+    }
+
+    // Visualizador de carrossel: setas, teclado e arrastar no celular.
+    var ov = null, slides = [], idx = 0, link = '', img, cont, prev, next, x0 = null;
+    function abrir(lista, i, permalink){
+      slides = lista; idx = i; link = permalink;
+      ov = el('div'); ov.className = 'igv'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', 'Carrossel');
+      img = el('img'); img.alt = '';
+      prev = el('button', null, '←'); prev.className = 'igv-bt igv-prev'; prev.setAttribute('aria-label', 'Card anterior');
+      next = el('button', null, '→'); next.className = 'igv-bt igv-next'; next.setAttribute('aria-label', 'Próximo card');
+      var fechar = el('button', null, '×'); fechar.className = 'igv-bt igv-close'; fechar.setAttribute('aria-label', 'Fechar');
+      cont = el('div'); cont.className = 'igv-cont';
+      ov.appendChild(img); ov.appendChild(prev); ov.appendChild(next); ov.appendChild(fechar); ov.appendChild(cont);
+      prev.onclick = function(e){ e.stopPropagation(); ir(-1); };
+      next.onclick = function(e){ e.stopPropagation(); ir(1); };
+      fechar.onclick = sair;
+      ov.addEventListener('click', function(e){ if (e.target === ov) sair(); });
+      ov.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+      ov.addEventListener('touchend', function(e){
+        if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null;
+        if (Math.abs(dx) > 40) ir(dx < 0 ? 1 : -1);
+      });
+      document.addEventListener('keydown', tecla);
+      document.body.appendChild(ov);
+      mostrar(); next.focus();
+    }
+    function mostrar(){
+      img.src = slides[idx];
+      var multi = slides.length > 1;
+      prev.style.display = next.style.display = multi ? '' : 'none';
+      prev.disabled = idx === 0; next.disabled = idx === slides.length - 1;
+      cont.textContent = multi ? (idx + 1) + ' / ' + slides.length : '';
+      var a = el('a', null, 'ver post ↗'); a.href = link; a.target = '_blank'; a.rel = 'noopener';
+      cont.appendChild(a);
+      if (slides[idx + 1]) { var pre = new Image(); pre.src = slides[idx + 1]; }
+    }
+    function ir(d){ var n = idx + d; if (n < 0 || n >= slides.length) return; idx = n; mostrar(); }
+    function tecla(e){
+      if (e.key === 'Escape') sair();
+      else if (e.key === 'ArrowRight') ir(1);
+      else if (e.key === 'ArrowLeft') ir(-1);
+    }
+    function sair(){ if (!ov) return; ov.remove(); ov = null; document.removeEventListener('keydown', tecla); }
+
+    fetch(FEED).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(data){
+      var posts = (data && data.posts) || [];
+      var grade = document.getElementById('ig-grade');
+      posts.forEach(function(p, i){
+        var capa = tam(p, 'large');
+        if (!capa) return;
+        var cards = (p.children && p.children.length) ? p.children : [p];
+        var lista = cards.map(function(c){ return tam(c, 'full'); }).filter(Boolean);
+        var texto = legenda(p);
+
+        var fig = el('figure', 'margin:0');
+        var box = el('button', 'all:unset;display:block;width:100%;position:relative;background:#121110;border-radius:24px;overflow:hidden;cursor:zoom-in;transition:opacity .3s ease');
+        box.setAttribute('aria-label', (texto || 'Peça publicada no Instagram') + (lista.length > 1 ? ', carrossel com ' + lista.length + ' cards' : ''));
+        box.onmouseenter = function(){ box.style.opacity = '.8'; };
+        box.onmouseleave = function(){ box.style.opacity = '1'; };
+        box.onclick = function(){ abrir(lista, 0, p.permalink); };
+        var im = el('img', 'width:100%;height:auto');
+        im.src = capa; im.alt = texto || 'Peça publicada no Instagram'; im.loading = 'lazy';
+        im.onerror = function(){ fig.remove(); };
+        box.appendChild(im);
+        if (lista.length > 1) {
+          box.appendChild(el('span', 'position:absolute;top:14px;right:14px;padding:5px 11px;border-radius:999px;background:rgba(18,17,15,.72);font-size:11px;font-weight:600;letter-spacing:0.14em;color:#F2EEE6', lista.length + ' cards'));
+        }
+        fig.appendChild(box);
+
+        var cap = el('figcaption', 'margin-top:12px;display:var(--capd,flex);gap:8px;align-items:baseline');
+        cap.appendChild(el('span', 'font-size:11px;font-weight:600;letter-spacing:0.14em;color:var(--ac,#C4573A)', String(i + 1).padStart(2, '0')));
+        var txt = el('span', 'font-size:13.5px;line-height:1.5;color:' + MUTED, texto ? texto + ' ' : '');
+        var a = el('a', 'color:' + MUTED + ';white-space:nowrap', 'ver post ↗');
+        a.href = p.permalink; a.target = '_blank'; a.rel = 'noopener';
+        txt.appendChild(a);
+        cap.appendChild(txt);
+        fig.appendChild(cap);
+        grade.appendChild(fig);
+      });
+      var n = grade.children.length;
+      if (!n) return;
+      document.getElementById('ig-qtd').textContent = n + (n === 1 ? ' peça' : ' peças mais recentes');
+      document.getElementById('ig-bloco').hidden = false;
+    }).catch(function(){ /* feed indisponível: bloco segue escondido */ });
+  })();
+  </script>
 </section>
 
 <section id="contato" style="scroll-margin-top:0;margin-top:clamp(80px,12vw,168px);background:#F2EEE6;color:#1A1815;border-radius:24px 24px 0 0">
