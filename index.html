@@ -72,24 +72,38 @@ a{color:inherit;text-decoration:none;transition:opacity .2s,color .2s}
 .intro{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,5vw,80px);align-items:start}
 .intro p{margin:0;max-width:44em;padding-top:.4em;font-size:clamp(17px,1.4vw,20px);line-height:1.7;color:rgba(242,238,230,.86)}
 .intro p strong{font-weight:600;color:var(--paper)}
-.pj-grid{margin-top:clamp(48px,7vw,96px);display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(24px,3.2vw,48px)}
-.pj:nth-child(even){margin-top:clamp(80px,12vw,180px)}
-.pj{margin-bottom:clamp(56px,7vw,96px)}
-.pj-cv{all:unset;box-sizing:border-box;position:relative;display:block;width:100%;aspect-ratio:3/4;background:var(--card);border-radius:16px;overflow:hidden;cursor:zoom-in}
-.pj-cv::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(242,238,230,.10);pointer-events:none}
-.pj-cv img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-.pj-cv:hover img{transform:scale(1.03)}
-.pj-cv:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
-.chips{position:absolute;z-index:1;top:12px;right:12px;display:flex;gap:6px}
-.chips span{background:var(--paper);color:var(--ink);border-radius:999px;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 9px;line-height:1}
-.pj-ver{position:absolute;z-index:1;left:12px;bottom:12px;border-radius:999px;background:var(--ac);color:var(--paper);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:9px 12px;line-height:1;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}
-.pj-cv:hover .pj-ver,.pj-cv:focus-visible .pj-ver{opacity:1;transform:none}
-.pj-hd{margin-top:24px;display:flex;justify-content:space-between;align-items:baseline;gap:24px}
-.pj-hd h3{margin:0;font-size:clamp(20px,2vw,26px);font-weight:600;letter-spacing:-.02em;line-height:1.25}
-.pj-n{flex:none;font-size:13px;font-weight:500;line-height:1.5;color:var(--paper);opacity:.6}
-.pj-ds{margin:12px 0 0;max-width:52ch;font-size:16px;line-height:1.65;letter-spacing:0;color:rgba(242,238,230,.7)}
-.pj-mt{margin:16px 0 0;font-size:13px;line-height:1.5;color:var(--ac)}
-@media (max-width:900px){.intro,.pj-grid{grid-template-columns:1fr}.pj:nth-child(even){margin-top:0}.pj-grid{max-width:560px}}
+.pj-grid{margin-top:clamp(56px,8vw,112px);display:flex;flex-direction:column;gap:clamp(72px,10vw,140px)}
+.bd{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.6fr);gap:clamp(32px,4.5vw,72px);align-items:center}
+.bd:nth-child(even){grid-template-columns:minmax(0,1.6fr) minmax(0,.75fr)}
+.bd:nth-child(even) .bd-tx{order:2}
+.bd-n{display:block;margin-bottom:16px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ac)}
+.bd-tx h3{margin:0;font-size:clamp(26px,2.6vw,38px);font-weight:700;letter-spacing:-.03em;line-height:1.12}
+.bd-set{margin:10px 0 0;font-size:15px;font-style:italic;line-height:1.5;color:rgba(242,238,230,.7)}
+.bd-ds{margin:24px 0 0;max-width:34em;font-size:clamp(16px,1.25vw,18px);line-height:1.7;color:rgba(242,238,230,.86)}
+.bd-kf{margin:32px 0 0;font-size:clamp(17px,1.4vw,20px);font-weight:700;letter-spacing:-.02em;line-height:1.3}
+.bd-li{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.bd-li li{position:relative;padding-left:20px;font-size:15.5px;line-height:1.5;color:rgba(242,238,230,.86)}
+.bd-li li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.bd-bt{all:unset;box-sizing:border-box;margin-top:32px;display:inline-flex;align-items:stretch;border:1px solid rgba(242,238,230,.22);cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1}
+.bd-bt i{font-style:normal;background:var(--ac);color:var(--paper);display:flex;align-items:center;justify-content:center;width:36px;font-size:14px;letter-spacing:0}
+.bd-bt span{display:flex;align-items:center;padding:0 16px;min-height:36px}
+.bd-bt:hover i{background:var(--ac-d)}
+.bd-bt:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1vw,14px)}
+.bento.b3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tl{all:unset;box-sizing:border-box;position:relative;display:block;aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:var(--card);cursor:zoom-in}
+.tl.big{grid-column:span 2;grid-row:span 2}
+.bd:nth-child(even) .tl.big{grid-column:3 / span 2;grid-row:1 / span 2}
+.bd:nth-child(even) .bento.b3 .tl.big{grid-column:2 / span 2}
+.tl::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(242,238,230,.10);pointer-events:none}
+.tl img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.tl:hover img{transform:scale(1.04)}
+.tl:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+.tl .mais{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(26,24,21,.72);color:var(--paper);text-align:center;transition:background .25s}
+.tl .mais b{font-size:clamp(22px,2.4vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1}
+.tl .mais small{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,238,230,.8)}
+.tl:hover .mais{background:rgba(196,87,58,.82)}
+@media (max-width:900px){.intro,.bd,.bd:nth-child(even){grid-template-columns:1fr}.bd:nth-child(even) .bd-tx{order:0}}
 #ig-bloco .ig-hd{margin-top:clamp(24px,4vw,48px);padding-top:40px;border-top:1px solid var(--line-d);display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
 #ig-bloco h3{margin:0;font-size:clamp(22px,2.6vw,32px);font-weight:600;letter-spacing:-.03em}
 #ig-bloco .ig-sb{font-size:13px;line-height:1.5;color:var(--mute-d)}
@@ -215,45 +229,53 @@ a{color:inherit;text-decoration:none;transition:opacity .2s,color .2s}
       <p>Criativo de performance, com uma tarefa clara e pouco tempo para cumprir. Carrossel editorial, que só serve se for lido até o último card. Em todas as frentes a hierarquia é decidida primeiro. <strong>Clique numa frente para ver todas as peças.</strong></p>
     </div>
     <div class="pj-grid">
-    <article class="pj">
-      <button class="pj-cv" type="button" data-g="f1" data-i="0" aria-label="Ver as 20 peças de Criativos para campanhas de aquisição">
-        <img src="assets/ad-13.jpg" alt="Anúncio com tipografia condensada em bloco cheio" loading="lazy">
-        <span class="chips"><span>Ads</span><span>Setor financeiro</span></span>
-        <span class="pj-ver">Ver as 20 peças</span>
-      </button>
-      <div class="pj-hd"><h3>Criativos para campanhas de aquisição</h3><span class="pj-n">20 peças</span></div>
-      <p class="pj-ds">Anúncios para tráfego pago. Uma mensagem por peça, um caminho de leitura, nada competindo com o texto. Rodam em ciclos curtos, e o que fica no ar é o que a leitura sustentou.</p>
-      <p class="pj-mt">Setor financeiro, 2025 a 2026, Formato 3:4, feed e stories</p>
+    <article class="bd">
+      <div class="bd-tx">
+        <span class="bd-n">Frente 01</span>
+        <h3>Criativos para campanhas de aquisição</h3>
+        <p class="bd-set">Setor financeiro</p>
+        <p class="bd-ds">Anúncios para tráfego pago. Uma mensagem por peça, um caminho de leitura, nada competindo com o texto. Rodam em ciclos curtos, e o que fica no ar é o que a leitura sustentou.</p>
+        <p class="bd-kf">Destaques</p>
+        <ul class="bd-li"><li>2025 a 2026</li><li>Formato 3:4, feed e stories</li><li>20 peças</li></ul>
+        <button class="bd-bt" type="button" data-g="f1" data-i="0"><i aria-hidden="true">↗</i><span>Ver as 20 peças</span></button>
+      </div>
+      <div class="bento"><button class="tl big" type="button" data-g="f1" data-i="12" aria-label="Abrir peça 13 de 20"><img src="assets/ad-13.jpg" alt="Anúncio com tipografia condensada em bloco cheio" loading="lazy"></button><button class="tl" type="button" data-g="f1" data-i="3" aria-label="Abrir peça 4 de 20"><img src="assets/ad-04.jpg" alt="Anúncio comparativo com dois selos" loading="lazy"></button><button class="tl" type="button" data-g="f1" data-i="10" aria-label="Abrir peça 11 de 20"><img src="assets/ad-11.jpg" alt="Anúncio com textura de lousa e letra de giz" loading="lazy"></button><button class="tl" type="button" data-g="f1" data-i="16" aria-label="Abrir peça 17 de 20"><img src="assets/ad-17.jpg" alt="Anúncio com rota de mapa" loading="lazy"></button><button class="tl" type="button" data-g="f1" data-i="8" aria-label="Abrir peça 9 de 20"><img src="assets/ad-09.jpg" alt="Anúncio com dois cards de comparação de carreira" loading="lazy"><span class="mais"><b>+15</b><small>ver todas</small></span></button></div>
     </article>
-    <article class="pj">
-      <button class="pj-cv" type="button" data-g="f2" data-i="0" aria-label="Ver as 3 peças de Carrossel editorial · algoritmo">
-        <img src="assets/carrossel-08.jpg" alt="Card de carrossel com dado e data" loading="lazy">
-        <span class="chips"><span>Carrossel</span><span>Projeto pessoal</span></span>
-        <span class="pj-ver">Ver as 3 peças</span>
-      </button>
-      <div class="pj-hd"><h3>Carrossel editorial · algoritmo</h3><span class="pj-n">3 peças</span></div>
-      <p class="pj-ds">Conteúdo sobre como o Instagram distribui post, escrito e desenhado por mim. Afirmações em serifa, miolo em sans, uma ideia por card. Quando um card pedia duas leituras, ele virou dois cards.</p>
-      <p class="pj-mt">Projeto pessoal, 2026, Carrossel 3:4</p>
+    <article class="bd">
+      <div class="bd-tx">
+        <span class="bd-n">Frente 02</span>
+        <h3>Carrossel editorial · algoritmo</h3>
+        <p class="bd-set">Projeto pessoal</p>
+        <p class="bd-ds">Conteúdo sobre como o Instagram distribui post, escrito e desenhado por mim. Afirmações em serifa, miolo em sans, uma ideia por card. Quando um card pedia duas leituras, ele virou dois cards.</p>
+        <p class="bd-kf">Destaques</p>
+        <ul class="bd-li"><li>2026</li><li>Carrossel 3:4</li><li>3 peças</li></ul>
+        <button class="bd-bt" type="button" data-g="f2" data-i="0"><i aria-hidden="true">↗</i><span>Ver as 3 peças</span></button>
+      </div>
+      <div class="bento b3"><button class="tl big" type="button" data-g="f2" data-i="1" aria-label="Abrir peça 2 de 3"><img src="assets/carrossel-08.jpg" alt="Card de carrossel com dado e data" loading="lazy"></button><button class="tl" type="button" data-g="f2" data-i="0" aria-label="Abrir peça 1 de 3"><img src="assets/carrossel-07.jpg" alt="Card de carrossel com citação" loading="lazy"></button><button class="tl" type="button" data-g="f2" data-i="2" aria-label="Abrir peça 3 de 3"><img src="assets/carrossel-09.jpg" alt="Card de carrossel com pergunta" loading="lazy"></button></div>
     </article>
-    <article class="pj">
-      <button class="pj-cv" type="button" data-g="f3" data-i="0" aria-label="Ver as 7 peças de Carrossel editorial · história de marca">
-        <img src="assets/nike-05.jpg" alt="Card com lettering em escala gigante" loading="lazy">
-        <span class="chips"><span>Carrossel</span><span>Projeto pessoal</span></span>
-        <span class="pj-ver">Ver as 7 peças</span>
-      </button>
-      <div class="pj-hd"><h3>Carrossel editorial · história de marca</h3><span class="pj-n">7 peças</span></div>
-      <p class="pj-ds">Sete cards contando o desenho de um símbolo esportivo de 1971 a 1995. Serifa nas afirmações, imagem em preto e branco, um fato por card e a pergunta guardada para o fim.</p>
-      <p class="pj-mt">Projeto pessoal, 2026, Carrossel 3:4</p>
+    <article class="bd">
+      <div class="bd-tx">
+        <span class="bd-n">Frente 03</span>
+        <h3>Carrossel editorial · história de marca</h3>
+        <p class="bd-set">Projeto pessoal</p>
+        <p class="bd-ds">Sete cards contando o desenho de um símbolo esportivo de 1971 a 1995. Serifa nas afirmações, imagem em preto e branco, um fato por card e a pergunta guardada para o fim.</p>
+        <p class="bd-kf">Destaques</p>
+        <ul class="bd-li"><li>2026</li><li>Carrossel 3:4</li><li>7 peças</li></ul>
+        <button class="bd-bt" type="button" data-g="f3" data-i="0"><i aria-hidden="true">↗</i><span>Ver as 7 peças</span></button>
+      </div>
+      <div class="bento"><button class="tl big" type="button" data-g="f3" data-i="2" aria-label="Abrir peça 3 de 7"><img src="assets/nike-05.jpg" alt="Card com lettering em escala gigante" loading="lazy"></button><button class="tl" type="button" data-g="f3" data-i="0" aria-label="Abrir peça 1 de 7"><img src="assets/nike-03.jpg" alt="Card com retrato em preto e branco" loading="lazy"></button><button class="tl" type="button" data-g="f3" data-i="4" aria-label="Abrir peça 5 de 7"><img src="assets/nike-07.jpg" alt="Card com marcação vermelha à mão" loading="lazy"></button><button class="tl" type="button" data-g="f3" data-i="5" aria-label="Abrir peça 6 de 7"><img src="assets/nike-08.jpg" alt="Card com foto aérea" loading="lazy"></button><button class="tl" type="button" data-g="f3" data-i="6" aria-label="Abrir peça 7 de 7"><img src="assets/nike-09.jpg" alt="Card de fechamento com pilha de moedas" loading="lazy"><span class="mais"><b>+2</b><small>ver todas</small></span></button></div>
     </article>
-    <article class="pj">
-      <button class="pj-cv" type="button" data-g="f4" data-i="0" aria-label="Ver as 9 peças de Contagem regressiva para um evento ao vivo">
-        <img src="assets/contagem-01.jpg" alt="Contagem de sete dias com o número 7 em escala gigante" loading="lazy">
-        <span class="chips"><span>Série</span><span>Setor financeiro</span></span>
-        <span class="pj-ver">Ver as 9 peças</span>
-      </button>
-      <div class="pj-hd"><h3>Contagem regressiva para um evento ao vivo</h3><span class="pj-n">9 peças</span></div>
-      <p class="pj-ds">Uma peça por dia, do sétimo dia até a estreia. O número é a imagem principal e muda de posição a cada dia, para a série não ficar repetitiva no feed. Na véspera, os números saem e entra a promessa do evento.</p>
-      <p class="pj-mt">Setor financeiro, Lançamento ao vivo, Formato 3:4</p>
+    <article class="bd">
+      <div class="bd-tx">
+        <span class="bd-n">Frente 04</span>
+        <h3>Contagem regressiva para um evento ao vivo</h3>
+        <p class="bd-set">Setor financeiro</p>
+        <p class="bd-ds">Uma peça por dia, do sétimo dia até a estreia. O número é a imagem principal e muda de posição a cada dia, para a série não ficar repetitiva no feed. Na véspera, os números saem e entra a promessa do evento.</p>
+        <p class="bd-kf">Destaques</p>
+        <ul class="bd-li"><li>Lançamento ao vivo</li><li>Formato 3:4</li><li>9 peças</li></ul>
+        <button class="bd-bt" type="button" data-g="f4" data-i="0"><i aria-hidden="true">↗</i><span>Ver as 9 peças</span></button>
+      </div>
+      <div class="bento"><button class="tl big" type="button" data-g="f4" data-i="0" aria-label="Abrir peça 1 de 9"><img src="assets/contagem-01.jpg" alt="Contagem de sete dias com o número 7 em escala gigante" loading="lazy"></button><button class="tl" type="button" data-g="f4" data-i="2" aria-label="Abrir peça 3 de 9"><img src="assets/contagem-03.jpg" alt="Contagem de cinco dias com dois apresentadores" loading="lazy"></button><button class="tl" type="button" data-g="f4" data-i="4" aria-label="Abrir peça 5 de 9"><img src="assets/contagem-05.jpg" alt="Contagem de três dias com o número 3 sangrando a margem" loading="lazy"></button><button class="tl" type="button" data-g="f4" data-i="7" aria-label="Abrir peça 8 de 9"><img src="assets/contagem-08.jpg" alt="Peça do dia da estreia com dois apresentadores em diagonal" loading="lazy"></button><button class="tl" type="button" data-g="f4" data-i="8" aria-label="Abrir peça 9 de 9"><img src="assets/contagem-09.jpg" alt="Peça final com o título É hoje em caixa alta" loading="lazy"><span class="mais"><b>+4</b><small>ver todas</small></span></button></div>
     </article>
     </div>
 
